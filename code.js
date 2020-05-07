@@ -52,7 +52,7 @@ const User = new mongoose.Schema({
 
 });
 
-const uss = new model(uss,User)
+const uss = new mongoose.model('uss',User)
 //module.exports = mongoose.model('uss',User);
 
 //todo table
@@ -76,7 +76,7 @@ const To_do = new mongoose.Schema({
         type: String
     }
 });
-const td = new model(td,To_do)
+const td = new mongoose.model('td',To_do)
 //module.exports = mongoose.model('td',To_do);
 
 //const td = new model(td,To_doSchema)
