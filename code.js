@@ -31,9 +31,13 @@ mongoose.connect('mongodb+srv://Intern:surya@1999@cluster0-gsvf1.mongodb.net/sur
     console.error('unable to connect to Database');
 });
 
+
 app.listen(port, () => {
     console.log('server started at port ' +port);
 });
+
+
+// require("./model/localDB")
 
 //TABLES CREATION
 
@@ -107,9 +111,9 @@ app.post('/create/user',async (req,res) => {
 
         console.log("api called");
     var user = {
-		'name': req.body.uname,
-		'email': req.body.uemail,
-        'dp':req.body.profilepic
+		uname: req.body.name,
+		email: req.body.email,
+        profilepic :req.body.pp
     }
     
 
