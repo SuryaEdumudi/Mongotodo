@@ -19,9 +19,9 @@ const port = 8000;
 
 mongoose.connect('mongodb+srv://Intern:surya@1999@cluster0-gsvf1.mongodb.net/surya',
 {
-    dbName : 'surya',
-    user : 'Intern',
-    pass : 'surya@1999',
+    // dbName : 'surya',
+    // user : 'Intern',
+    // pass : 'surya@1999',
     useNewUrlParser : true,
     useUnifiedTopology : true
 })
@@ -52,8 +52,8 @@ const User = new mongoose.Schema({
 
 });
 
-//const uss = new model(uss,UserSchema)
-module.exports = mongoose.model('uss',User);
+const uss = new model(uss,User)
+//module.exports = mongoose.model('uss',User);
 
 //todo table
 
@@ -76,8 +76,8 @@ const To_do = new mongoose.Schema({
         type: String
     }
 });
-
-module.exports = mongoose.model('td',To_do);
+const td = new model(td,To_do)
+//module.exports = mongoose.model('td',To_do);
 
 //const td = new model(td,To_doSchema)
 
@@ -113,7 +113,7 @@ app.post('/create/user',async (req,res) => {
     }
     
 
-        var user_created = User(user);
+        var user_created = uss(user);
         await user_created.save((err,user)=>{
             if(err)
                 {
