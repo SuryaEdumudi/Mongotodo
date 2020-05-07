@@ -67,10 +67,12 @@ const To_do = new mongoose.Schema({
 
     },
 	status : {
-	type: Boolean,
+    type: Boolean,
+    defaultvalue: false
     },
     deleted: {
         type: Boolean,
+        defaultvalue: false
     },
     uid : {
         type: String
@@ -107,9 +109,9 @@ app.post('/create/user',async (req,res) => {
 
         console.log("api called");
     var user = {
-		'name': req.body.uname,
-		'email': req.body.uemail,
-        'dp':req.body.profilepic
+		uname: req.body.name,
+		uemail: req.body.email,
+        profilepic :req.body.pp
     }
     
 
@@ -156,3 +158,40 @@ app.post('/create/user',async (req,res) => {
 //    }
 //     });
 
+//create todo api
+
+app.post('/create/todo',async (req,res) => {
+    try{
+
+        console.log("api called");
+    var to_do = {
+		title: req.body.tit,
+		description: req.body.des
+        // status :req.body.sta,
+        // deleted :req.body.del,
+        
+    }
+    
+
+        var todo_created = td(to_do);
+        await todo_created.save((err,user)=>{
+            if(err)
+                {
+                    res.status(400).send("error");
+
+                }
+                else
+                {
+                    console.log("todo added");
+                    res.status(200).json({
+                        success:true,
+                        message:'todo added to db'
+
+                    });
+                }
+            })
+        }
+        catch(error){
+            res.status(500)
+        }
+    });
