@@ -31,9 +31,13 @@ mongoose.connect('mongodb+srv://Intern:surya@1999@cluster0-gsvf1.mongodb.net/sur
     console.error('unable to connect to Database');
 });
 
+
 app.listen(port, () => {
     console.log('server started at port ' +port);
 });
+
+
+// require("./model/localDB")
 
 //TABLES CREATION
 
@@ -110,7 +114,11 @@ app.post('/create/user',async (req,res) => {
         console.log("api called");
     var user = {
 		uname: req.body.name,
+<<<<<<< HEAD
 		uemail: req.body.email,
+=======
+		email: req.body.email,
+>>>>>>> a0bd67a0199f94dc7dfed59117635e361fe3ea63
         profilepic :req.body.pp
     }
     
@@ -158,40 +166,4 @@ app.post('/create/user',async (req,res) => {
 //    }
 //     });
 
-//create todo api
 
-app.post('/create/todo',async (req,res) => {
-    try{
-
-        console.log("api called");
-    var to_do = {
-		title: req.body.tit,
-		description: req.body.des
-        // status :req.body.sta,
-        // deleted :req.body.del,
-        
-    }
-    
-
-        var todo_created = td(to_do);
-        await todo_created.save((err,user)=>{
-            if(err)
-                {
-                    res.status(400).send("error");
-
-                }
-                else
-                {
-                    console.log("todo added");
-                    res.status(200).json({
-                        success:true,
-                        message:'todo added to db'
-
-                    });
-                }
-            })
-        }
-        catch(error){
-            res.status(500)
-        }
-    });
