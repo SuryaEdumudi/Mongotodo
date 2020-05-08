@@ -239,14 +239,48 @@ app.post('/todo/:id',(req,res)=>{
     })
 })
 
-app.post('get/todo',(req,res)=>{
+// app.post('get/:id',(req,res)=>{
 
-    console.log("all todos");
-    td.findByIdAndDelete(req.params.id).exec((err, td)=> {
+//     console.log("deleting todos");
+//     td.findByIdAndDelete(req.params.id).exec((err, td)=> {
 
-        if(err)
-        res.status(400).send(err);
-        else
-            res.status(200).json(td);
-    })
+//         if(err)
+//         res.status(400).send(err);
+//         else
+//             res.status(200).json(td);
+//     })
+// })
+
+app.get('/get/delete_todo',(req,res) => {
+
+   
+
+    try{
+
+        var todos = await To_do.update(
+					{
+					  deleted:true
+					},
+                    { where: 
+                        { 
+                            tid: req.query.todoid
+                        } 
+                    });
+
+        if(todos)
+        {
+            res.status(200).json({
+                message: "TO-Do Deleted successfully !!"
+            });
+            return;
+        }
+        }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: "error while getting data from table"
+        });
+        return;
+    }
+
 })
