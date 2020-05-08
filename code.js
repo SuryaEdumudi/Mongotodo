@@ -117,12 +117,13 @@ app.post('/create/user',async (req,res) => {
 
         console.log("api called");
     var user = {
-        _id : new Schema.Types.ObjectId(),
+        _id : new mongoose.Types.ObjectId(),
 		uname: req.body.name,
 		uemail: req.body.email,
         profilepic :req.body.pp
     }
     
+    	console.log(user);
 
         var user_created = uss(user);
         await user_created.save((err,user)=>{
@@ -169,26 +170,28 @@ app.post('/create/user',async (req,res) => {
 
 //ctreate todo
 
-app.post('/create/todo',async (req,res) => {
+app.post('/create/todo',async(req,res) => {
     try{
 
         console.log("api called");
     	var to_do = {
-        _id : new Schema.Types.ObjectId(),
+        _id : new mongoose.Types.ObjectId(),
 		title: req.body.tit,
         description: req.body.des,
-        user: req.body.uid
+        uid: req.body.uid
         // status :req.body.sta,
         // deleted :req.body.del,
         
     }
-    
-
         var todo_created = new td(to_do);
         await todo_created.save((err,todo)=>{
             if(err)
                 {
+<<<<<<< HEAD
                     res.status(400).send(err);
+=======
+                    res.status(400).send("error"+err);
+>>>>>>> b55ccf35c5c534ce8587aa093f8264cb4bf495d4
 
                 }
                 else
@@ -205,9 +208,9 @@ app.post('/create/todo',async (req,res) => {
         catch(error){
             res.status(500)
         }
-    });
+ });
 
-app.get('get/todo',(req,res)=>{
+app.get('/get/todo',(req,res)=>{
 
     console.log("all todos");
     td.find({}).populate("uss").exec((err, td)=> {
@@ -219,13 +222,29 @@ app.get('get/todo',(req,res)=>{
     })
 })
 
+<<<<<<< HEAD
 app.post('/todo/:id',(req,res)=>{
+=======
+app.get('/get/user',(req,res)=>{
+
+    console.log("all users");
+    uss.find({}).exec((err, users)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(users);
+    })
+})
+
+app.put('/todo/:id',(req,res)=>{
+>>>>>>> b55ccf35c5c534ce8587aa093f8264cb4bf495d4
 
     console.log("editing todos");
     var to_do = {
      
 		title: req.body.tit,
-        description: req.body.des,
+        description: req.body.des
         // status :req.body.sta,
         // deleted :req.body.del,
         
@@ -239,7 +258,11 @@ app.post('/todo/:id',(req,res)=>{
     })
 })
 
+<<<<<<< HEAD
 // app.post('get/:id',(req,res)=>{
+=======
+app.delete('/get/todo',(req,res)=>{
+>>>>>>> b55ccf35c5c534ce8587aa093f8264cb4bf495d4
 
 //     console.log("deleting todos");
 //     td.findByIdAndDelete(req.params.id).exec((err, td)=> {
