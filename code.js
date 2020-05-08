@@ -128,7 +128,7 @@ app.post('/create/user',async (req,res) => {
         await user_created.save((err,user)=>{
             if(err)
                 {
-                    res.status(400).send("error");
+                    res.status(400).send(err);
 
                 }
                 else
@@ -188,7 +188,7 @@ app.post('/create/todo',async (req,res) => {
         await todo_created.save((err,todo)=>{
             if(err)
                 {
-                    res.status(400).send("error");
+                    res.status(400).send(err);
 
                 }
                 else
@@ -219,7 +219,7 @@ app.get('get/todo',(req,res)=>{
     })
 })
 
-app.put('/todo/:id',(req,res)=>{
+app.post('/todo/:id',(req,res)=>{
 
     console.log("editing todos");
     var to_do = {
@@ -239,7 +239,7 @@ app.put('/todo/:id',(req,res)=>{
     })
 })
 
-app.delete('get/todo',(req,res)=>{
+app.post('get/todo',(req,res)=>{
 
     console.log("all todos");
     td.findByIdAndDelete(req.params.id).exec((err, td)=> {
