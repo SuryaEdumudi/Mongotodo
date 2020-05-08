@@ -44,6 +44,7 @@ app.listen(port, () => {
 //user table
 
 const User = new mongoose.Schema({
+    _id : mongoose.Schema.Types.ObjectId,
     uname: {
     type: String
     },
@@ -62,6 +63,7 @@ const uss = new mongoose.model('uss',User)
 //todo table
 
 const To_do = new mongoose.Schema({
+    _id : mongoose.Schema.Types.ObjectId,
 
     title: {
         type : String
@@ -79,7 +81,9 @@ const To_do = new mongoose.Schema({
         default : false
     },
     uid : {
-        type: String
+        required:true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref : 'uss'
     }
 });
 const td = new mongoose.model('td',To_do)
@@ -113,6 +117,7 @@ app.post('/create/user',async (req,res) => {
 
         console.log("api called");
     var user = {
+        _id : new Schema.Types.ObjectId(),
 		uname: req.body.name,
 		uemail: req.body.email,
         profilepic :req.body.pp
@@ -169,8 +174,10 @@ app.post('/create/todo',async (req,res) => {
 
         console.log("api called");
     	var to_do = {
+        _id : new Schema.Types.ObjectId(),
 		title: req.body.tit,
-		description: req.body.des
+        description: req.body.des,
+        user: req.body.uid
         // status :req.body.sta,
         // deleted :req.body.del,
         
@@ -200,3 +207,46 @@ app.post('/create/todo',async (req,res) => {
         }
     });
 
+app.get('get/todo',(req,res)=>{
+
+    console.log("all todos");
+    td.find({}).populate("uss").exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
+app.put('/todo/:id',(req,res)=>{
+
+    console.log("editing todos");
+    var to_do = {
+     
+		title: req.body.tit,
+        description: req.body.des,
+        // status :req.body.sta,
+        // deleted :req.body.del,
+        
+    }
+    td.findByIdAndUpdate(req.params.id, docObj, {new : true}).exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
+app.delete('get/todo',(req,res)=>{
+
+    console.log("all todos");
+    td.findByIdAndDelete(req.params.id).exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
