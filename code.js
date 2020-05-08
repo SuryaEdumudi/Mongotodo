@@ -28,7 +28,7 @@ mongoose.connect('mongodb+srv://Intern:surya@1999@cluster0-gsvf1.mongodb.net/sur
 .then( ()=> {
     console.log("Database Connected");
 }).catch( err => {
-    console.error('unable to connect to Database');
+    console.error('unable to connect to Database'+err);
 });
 
 
@@ -232,7 +232,7 @@ app.get('/get/user',(req,res)=>{
     })
 })
 
-app.put('/todo/:id',(req,res)=>{
+app.post('/update/todo',(req,res)=>{
     console.log("editing todos");
     var to_do = {
      
@@ -242,7 +242,7 @@ app.put('/todo/:id',(req,res)=>{
         // deleted :req.body.del,
         
     }
-    td.findByIdAndUpdate(req.params.id, docObj, {new : true}).exec((err, td)=> {
+    td.findByIdAndUpdate(req.body.tid, to_do, {new : true}).exec((err, td)=> {
 
         if(err)
         res.status(400).send(err);
@@ -253,46 +253,47 @@ app.put('/todo/:id',(req,res)=>{
 
 
 
-//     console.log("deleting todos");
-//     td.findByIdAndDelete(req.params.id).exec((err, td)=> {
+app.post('/delete_todo',async (req,res) => {
 
-//         if(err)
-//         res.status(400).send(err);
-//         else
-//             res.status(200).json(td);
-//     })
-// })
+    console.log("deleting todos");
+    td.findByIdAndDelete(req.body.tid).exec((err, td)=> {
 
-app.get('/get/delete_todo',async (req,res) => {
+        if(err)
+        	res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
 
    
 
-    try{
+//     try{
 
-        var todos = await To_do.update(
-					{
-					  deleted:true
-					},
-                    { where: 
-                        { 
-                            tid: req.query.todoid
-                        } 
-                    });
+//         var todos = await To_do.update(
+// 					{
+// 					  deleted:true
+// 					},
+//                     { where: 
+//                         { 
+//                             tid: req.query.todoid
+//                         } 
+//                     });
 
-        if(todos)
-        {
-            res.status(200).json({
-                message: "TO-Do Deleted successfully !!"
-            });
-            return;
-        }
-        }
-    catch(err){
-        console.log(err);
-        res.status(500).json({
-            message: "error while getting data from table"
-        });
-        return;
-    }
+//         if(todos)
+//         {
+//             res.status(200).json({
+//                 message: "TO-Do Deleted successfully !!"
+//             });
+//             return;
+//         }
+//         }
+//     catch(err){
+//         console.log(err);
+//         res.status(500).json({
+//             message: "error while getting data from table"
+//         });
+//         return;
+//     }
 
-})
+// })
