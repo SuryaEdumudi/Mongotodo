@@ -286,10 +286,22 @@ app.post('/tempdelete/todo',(req,res)=>{
     })
 })
 
-app.get('/deleted/todo',(req,res)=>{
+app.get('/showdeleted/todo',(req,res)=>{
 
     console.log("all todos");
     td.find({deleted: true}).populate("uss").exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
+app.get('/showdashboard',(req,res)=>{
+
+    console.log("all todos");
+    td.find({deleted: false, status:false}).populate("uss").exec((err, td)=> {
 
         if(err)
         res.status(400).send(err);
