@@ -266,34 +266,67 @@ app.post('/delete_todo',async (req,res) => {
 })
 
 
-   
 
-//     try{
+app.post('/tempdelete/todo',(req,res)=>{
+    console.log("editing todos");
+    var to_do = {
+     
+		// title: req.body.tit,
+        // description: req.body.des
+        // status :req.body.sta,
+        deleted :req.body.del,
+        
+    }
+    td.findByIdAndUpdate(req.body.tid, to_do, {new : true}).exec((err, td)=> {
 
-//         var todos = await To_do.update(
-// 					{
-// 					  deleted:true
-// 					},
-//                     { where: 
-//                         { 
-//                             tid: req.query.todoid
-//                         } 
-//                     });
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
 
-//         if(todos)
-//         {
-//             res.status(200).json({
-//                 message: "TO-Do Deleted successfully !!"
-//             });
-//             return;
-//         }
-//         }
-//     catch(err){
-//         console.log(err);
-//         res.status(500).json({
-//             message: "error while getting data from table"
-//         });
-//         return;
-//     }
+app.get('/deleted/todo',(req,res)=>{
 
-// })
+    console.log("all todos");
+    td.find({deleted: true}).populate("uss").exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
+app.get('/showcompleted/todo',(req,res)=>{
+
+    console.log("all todos");
+    td.find({status: true}).populate("uss").exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
+
+
+
+app.post('/completed/todo',(req,res)=>{
+    console.log("editing todos");
+    var to_do = {
+     
+		// title: req.body.tit,
+        // description: req.body.des
+         status :req.body.sta,
+        //deleted :req.body.del,
+        
+    }
+    td.findByIdAndUpdate(req.body.tid, to_do, {new : true}).exec((err, td)=> {
+
+        if(err)
+        res.status(400).send(err);
+        else
+            res.status(200).json(td);
+    })
+})
